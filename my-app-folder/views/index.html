@@ -5,12 +5,13 @@
 		<link rel="stylesheet" type="text/css" href="/stylesheets/app.css" />
 	</head>
 	<body>
-		<div id="usernameHeader" data-request={{name}}>			
+		<div id="usernameHeader" data-request="<%= user_name %>">	
+			<%= user_name %>		
 		</div>
 		<h2 id="mainHeader">A skeleton for app building using Node, Mongo, React and Webpack</h2>
 		<div id="componentContainer">
 		</div>
 	</body>
 	<script src="/js/vendors.js"></script>
-	<script type="text/javascript" src="/js/bundle.js"></script>
+	<script type="text/javascript" src="/js/bundled-app.js"></script>
 </html>	

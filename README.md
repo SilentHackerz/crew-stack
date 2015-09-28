@@ -1,4 +1,4 @@
-This is a boilerplate for quickly getting started with MongoDB, NodeJS, ReactJS and Webpack. Using this will help you get started quickly with the development process without bothering about setting up your dev environment.
+This is a boilerplate for quickly getting started with CassandraDB, Express, ReactJS and Webpack. Using this will help you get started quickly with the development process without bothering about setting up your dev environment. Additional packages include MongoDB, Redis and NPM modules
 
 To run the app
 

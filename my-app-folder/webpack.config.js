@@ -4,7 +4,9 @@
  */
 
 var webpack = require('webpack');
-var lib_dir = __dirname + '/public/js/libs',
+var path = require("path");
+
+var lib_dir = __dirname + '/public/libs',
     node_dir = __dirname + '/node_modules';
    // bower_dir = __dirname + '/bower_components'
 
@@ -27,18 +29,18 @@ var config = {
             jQuery: "jquery",
             'window.jQuery': "jquery"
         }),
-        new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js', Infinity),
+        new webpack.optimize.CommonsChunkPlugin('vendors', 'dist/js/vendors.js', Infinity),
 
     ],
 
     entry: {
-        app: ['./public/js/app-main'],
+        app: ['./public/src/js/app-main'],
         vendors: ['react','jquery','underscore']
     },
 
     output: {
-        path: './public/js',
-        filename: 'bundled-app.js'
+        path: path.join(__dirname, "public"),
+        filename: "dist/js/[name].bundle.js"
     },
     
     module: {
@@ -49,7 +51,10 @@ var config = {
         loaders: [
             { 
                 test: /\.js$/, 
-                loader: 'jsx-loader'
+                loader: 'babel',
+                query: {
+                    presets: ['react', 'es2015']
+                }
             }, 
         ]
     }

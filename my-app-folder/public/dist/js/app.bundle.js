@@ -12,7 +12,9 @@ webpackJsonp([1],[
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(1),__webpack_require__(5)], __WEBPACK_AMD_DEFINE_RESULT__ = function(React,HomePage){	
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;'use strict';
+
+	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(1), __webpack_require__(5)], __WEBPACK_AMD_DEFINE_RESULT__ = function (React, HomePage) {
 		console.log('Loaded the Home Page');
 		React.render(React.createElement(HomePage, null), document.getElementById('componentContainer'));
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -24,28 +26,32 @@ webpackJsonp([1],[
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(1)], __WEBPACK_AMD_DEFINE_RESULT__ = function(React){
-		var HomePage = React.createClass({displayName: "HomePage",
-			getInitialState: function(){
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;'use strict';
+
+	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(1)], __WEBPACK_AMD_DEFINE_RESULT__ = function (React) {
+		var HomePage = React.createClass({
+			displayName: 'HomePage',
+
+			getInitialState: function getInitialState() {
 				return {
-					userName:'ashwin'
-				}			
+					userName: 'ashwin'
+				};
 			},
-			componentDidMount:function(){
+			componentDidMount: function componentDidMount() {
 				console.log('triggered once after initial render');
 			},
-		  	render:function(){
-			    return (
-			    	React.createElement("div", {id: "homePage"}, 
-			    		"Welcome, ", this.state.userName
-	 		    	)
-			    );
-		  	}
+			render: function render() {
+				return React.createElement(
+					'div',
+					{ id: 'homePage' },
+					'Welcome, ',
+					this.state.userName
+				);
+			}
 		});
 
 		return HomePage;
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
 
 /***/ }
 ]);

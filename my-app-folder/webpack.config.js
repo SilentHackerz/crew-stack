@@ -40,7 +40,7 @@ var config = {
             jQuery: "jquery",
             'window.jQuery': "jquery"
         }),
-        new webpack.optimize.CommonsChunkPlugin('vendors', 'dist/js/vendors.js', Infinity),
+        //new webpack.optimize.CommonsChunkPlugin('vendors', 'dist/js/vendors.js', Infinity),
     ],
     
     module: {

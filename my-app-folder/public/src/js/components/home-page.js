@@ -11,7 +11,7 @@ define(['react'],function(React){
 	  	render:function(){
 		    return (
 		    	<div id="homePage">
-		    		Welcome, {this.state.userName}
+		    		haha, {this.state.userName}
  		    	</div>
 		    );
 	  	}

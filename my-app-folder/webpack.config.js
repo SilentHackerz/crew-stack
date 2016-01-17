@@ -18,20 +18,12 @@ var config = {
 
     resolve: {
         alias: {
-            react: node_dir + '/react/dist/react.js',
+            react: lib_dir + '/react.js',
+            reactDom: lib_dir + '/react-dom',
             jquery: lib_dir + '/jquery-1.11.2.min.js',  
             underscore: node_dir + '/underscore/underscore.js',
         }
     },   
-
-    plugins: [
-        new webpack.ProvidePlugin({
-            jQuery: "jquery",
-            'window.jQuery': "jquery"
-        }),
-        new webpack.optimize.CommonsChunkPlugin('vendors', 'dist/js/vendors.js', Infinity),
-
-    ],
 
     entry: {
         app: ['./public/src/js/app-main'],
@@ -42,10 +34,18 @@ var config = {
         path: path.join(__dirname, "public"),
         filename: "dist/js/[name].bundle.js"
     },
+
+    plugins: [
+        new webpack.ProvidePlugin({
+            jQuery: "jquery",
+            'window.jQuery': "jquery"
+        }),
+        new webpack.optimize.CommonsChunkPlugin('vendors', 'dist/js/vendors.js', Infinity),
+    ],
     
     module: {
         noParse: [
-            new RegExp(node_dir + '/react/dist/react.js'),
+            new RegExp(lib_dir + '/react.js'),
             new RegExp(lib_dir +'/jquery-1.11.2.min.js')
         ],
         loaders: [

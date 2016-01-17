@@ -1,6 +1,6 @@
-define(['react','./components/home-page'],function(React,HomePage){	
+define(['react','reactDom','./components/home-page'],function(React, ReactDom, HomePage){	
 	console.log('Loaded the Home Page');
-	React.render(<HomePage />, document.getElementById('componentContainer'));
+	ReactDom.render(<HomePage />, document.getElementById('componentContainer'));
 });
 
 //webpack --progress --colors --watch (for development)

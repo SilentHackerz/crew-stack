@@ -1,7 +1,6 @@
 /* @author Ashwin Hariharan
  * @details Configuration file 
  */
-define(function () {
     var config = {
         database_port: 27107,
         dbURL: "mongodb://localhost/socialogin",
@@ -15,5 +14,4 @@ define(function () {
             googleBackEndPlacesKey:"AIzaSyBE1zF3esVLiworvuhyNkC9hAi4t1AFmlU"            
         }
     }
-    return config;
-});
+    exports.config = config;

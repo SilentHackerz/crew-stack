@@ -1,14 +1,8 @@
-define(
-	[
-		'./routes/auth-api', 
-	],
-	function(authApi){
-		function initialize(expressInstance){
-			
-			authApi.initialize(expressInstance);
-		}
-		return {
-			initialize: initialize
-		}
-	}
-);
+var authApi = require('./routes/auth-api');
+
+function initialize(expressInstance){
+	
+	authApi.initialize(expressInstance);		
+}
+
+exports.initialize = initialize;

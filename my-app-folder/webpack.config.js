@@ -7,60 +7,62 @@ var webpack = require('webpack');
 var path = require("path");
 
 var lib_dir = __dirname + '/public/libs',
-    node_dir = __dirname + '/node_modules';
-   // bower_dir = __dirname + '/bower_components'
+    node_dir = __dirname + '/node_modules',
+    bower_dir = __dirname + '/bower_components';
 
 var config = {
-    addVendor: function (name, path) {  //This is not a built-in function
-        this.resolve.alias[name] = path;
-        this.module.noParse.push(new RegExp(path));
-    },
 
     resolve: {
         alias: {
-            react: lib_dir + '/react.js',
+            react: node_dir + '/react',
             reactDom: lib_dir + '/react-dom',
-            jquery: lib_dir + '/jquery-1.11.2.min.js',  
-            underscore: node_dir + '/underscore/underscore.js',
+            jquery: lib_dir + '/jquery-1.11.2.min.js'
         }
     },   
 
+    plugins: [
+        new webpack.ProvidePlugin({
+            '$': "jquery",
+            'jQuery': "jquery",
+            'window.jQuery': "jquery",
+            'window.$': 'jquery'
+        }),
+        new webpack.optimize.CommonsChunkPlugin('vendors', 'dist/js/vendors.js', Infinity),
+    ],
+
     entry: {
-        app: ['./public/src/js/app-main'],
-        vendors: ['react','jquery','underscore']
+        app: ['./public/src/js/main.js'],
+        vendors: ['react', 'jquery']
     },
 
     output: {
         path: path.join(__dirname, "public"),
         filename: "dist/js/[name].bundle.js"
     },
-
-    plugins: [
-        new webpack.ProvidePlugin({
-            jQuery: "jquery",
-            'window.jQuery': "jquery"
-        }),
-        //new webpack.optimize.CommonsChunkPlugin('vendors', 'dist/js/vendors.js', Infinity),
-    ],
     
     module: {
         noParse: [
             new RegExp(lib_dir + '/react.js'),
-            new RegExp(lib_dir +'/jquery-1.11.2.min.js')
+            new RegExp(lib_dir + './react-dom.js'),
+            //new RegExp(lib_dir +'/jquery-1.11.2.min.js')
         ],
         loaders: [
             { 
-                test: /\.js$/, 
-                loader: 'babel',
+                test: /\.jsx?$/, 
+                loaders: ['react-hot'],
+                include: path.join(__dirname, 'public')
+
+            },
+            { 
+                loader: 'babel', //'jsx-loader'
                 query: {
                     presets: ['react', 'es2015']
-                }
-            }, 
+                },
+                include: path.join(__dirname, 'public')
+            } 
         ]
     }
 };
-
-// config.addVendor('react', bower_dir + '/react/react.min.js');
 
 module.exports = config;
 

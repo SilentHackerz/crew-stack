@@ -1,107 +1,86 @@
-/* @author Ashwin Hariharan
- * @details Bootstraps the main server
+/**
+ * @author booleanhunter
+ * @about Runs the web-server and configures APIs
  */
- 
-var requirejs = require('requirejs');
 
-requirejs.config({
-    //Pass the top-level main.js/index.js require
-    //function to requirejs so that node modules
-    //are loaded relative to the top-level JS file.
-    nodeRequire: require
+var http = require('http');  //1
+//var https = require('https');
+//var fs = require('fs');
+
+var async = require('async'); //2
+var express = require('express'); //3
+var expressConfigs = require('./configs/server-configs/express-configs');
+var configMongodb = require('./configs/db-configs/config-mongodb');
+
+var expressInstance = expressConfigs.configure(),
+	debug = require('debug')('taskomplete:app'),
+	serverPort = 9992;
+
+http.createServer(expressInstance).listen(serverPort, function () {  //4
+    debug('Taskomplete Server running on ' + serverPort);
+    
+	async.parallel(
+		[
+			function(callback){
+				configMongodb.configure(callback);
+			}
+		], function(err, results){
+			if(err){
+				debug(err);
+			}else{
+				debug(results);
+				var routes = require('./controllers/routes');
+				routes.initialize(expressInstance);
+			}					
+		}
+	);
 });
 
-requirejs(
-	[
-		'http',
-		'https',
-		'async',
-		'fs',
-		'express',
-		'configs/server-configs/config', 
-		'configs/server-configs/express-configs', 	
-		'configs/db-configs/config-cassandra',
-		'configs/db-configs/config-redis',
-		'configs/db-configs/config-mongodb'
-	], 
-	function(http, https, async, fs, express, config, expressConfigs, configCassandra, configRedis, configMongodb){
-		var expressInstance = expressConfigs.configure(),
-			debug = require('debug')('myApp:app');
-
-		// var privateKey  = fs.readFileSync('ssl-certs-1/my-ssl-certifications/host.key', 'utf8'),
-		// 	certificate = fs.readFileSync('ssl-certs-1/f5bbd28d4c33691b.crt', 'utf8'),
-		// 	ca1 = fs.readFileSync('ssl-certs-1/gd_bundle-g2-g1.crt');
-
-		// var credentials = {key: privateKey, cert: certificate, ca: [ca1]};
-
-		// https.createServer(credentials, expressInstance).listen(config.production.server_port1, function () {
-		//     debug('Server running on ' + config.production.server_port1);
-		    
-		//     async.parallel(
-		//     	[
-		//     		function(callback){
-		//     			configCassandra.configure(callback);
-		    			
-		//     		},
-		//     		function(callback){
-		//     			configRedis.configure(callback);
-		//     		},
-		//     		function(callback){
-		//     			configMongodb.configure(callback);
-		//     		}
-		//     	], function(err, results){
-		// 			if(err){
-		// 				debug(err);
-		// 			}else{
-		// 				debug(results);
-		// 				requirejs(['controllers/routes'],function(routes){
-		// 					routes.initialize(expressInstance); //dB
-		// 				});
-		// 			}		    		
-		//     	}
-		//     );
-		// });
+// https.createServer(credentials, expressInstance).listen(config.development.server_port1, function () {
+//     debug('Toorq Server running on ' + config.development.server_port1);
+    
+//     async.parallel(
+//     	[
+//     		function(callback){
+//     			configCassandra.configure(callback);
+    			
+//     		},
+//     		function(callback){
+//     			configRedis.configure(callback);
+//     		},
+//     		function(callback){
+//     			configMongodb.configure(callback);
+//     		}
+//     	], function(err, results){
+// 			if(err){
+// 				debug(err);
+// 			}else{
+// 				debug(results);
+// 				requirejs(['controllers/routes'],function(routes){
+// 					routes.initialize(expressInstance); //dB
+// 				});
+// 			}		    		
+//     	}
+//     );
+// });
 
 
-		//For redirecting from http to https
-		// var redirectApp = express();
-		// redirectServer = http.createServer(redirectApp).listen(config.production.server_port2, function(){
-		// 	redirectApp.use(function (req, res, next) {
-		// 		if (!req.secure) {
-		// 			return res.redirect('https://' + req.headers.host + req.url);
-		// 		}
-		// 		next();
-		// 	});
-		// });  
+// //For redirecting from http to https
+// var redirectApp = express();
+// redirectServer = http.createServer(redirectApp).listen(80, function(){
+// 	redirectApp.use(function (req, res, next) {
+// 		if (!req.secure) {
+// 			return res.redirect('https://' + req.headers.host + req.url);
+// 		}
+// 		next();
+// 	});
+// });  
+// 	}
+// );
 
-		http.createServer(expressInstance).listen(config.development.server_port1, function () {
-		    debug('Server running on ' + config.development.server_port1);
-		    
-			async.parallel(
-				[
-					function(callback){
-						configCassandra.configure(callback);
-						
-					},
-					function(callback){
-						configRedis.configure(callback);
-					},
-					function(callback){
-						configMongodb.configure(callback);
-					}
-				], function(err, results){
-					if(err){
-						debug(err);
-					}else{
-						console.log(results);
-						debug(results);
-						requirejs(['controllers/routes'],function(routes){
-							routes.initialize(expressInstance); //dB
-						});
-					}					
-				}
-			);
-		});
-
-	}
-);
+/*
+1. Load the http module to create an http server.
+2. Async is used while dealing with multiple callbacks, helps avoid callback hell and sphagetti code
+3. Web framework for Node with utilities for RESTful web services
+4. Starts a Web server on the specified port 
+*/
